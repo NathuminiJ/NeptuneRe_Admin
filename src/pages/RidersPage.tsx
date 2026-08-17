@@ -217,7 +217,6 @@ export function RidersPage() {
     <div className="fade-in">
       <div className="page-head">
         <div>
-          <h2>Riders</h2>
           <p>{riders.length} riders registered · {filtered.length} match your filters</p>
         </div>
         <div className="page-actions">

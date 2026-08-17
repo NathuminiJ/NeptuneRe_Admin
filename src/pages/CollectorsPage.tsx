@@ -170,7 +170,6 @@ export function CollectorsPage() {
     <div className="fade-in">
       <div className="page-head">
         <div>
-          <h2>Collectors</h2>
           <p>{collectors.length} collectors registered · {filtered.length} match your filters</p>
         </div>
         <div className="page-actions">

@@ -198,7 +198,6 @@ export function VehiclesPage() {
     <div className="fade-in">
       <div className="page-head">
         <div>
-          <h2>Vehicles</h2>
           <p>{vehicles.length} vehicles registered · {filtered.length} match your filters</p>
         </div>
         <div className="page-actions">

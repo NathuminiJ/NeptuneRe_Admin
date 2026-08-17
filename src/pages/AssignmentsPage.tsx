@@ -188,7 +188,6 @@ export function AssignmentsPage() {
     <div className="fade-in">
       <div className="page-head">
         <div>
-          <h2>Daily Assignments</h2>
           <p>{assignments.length} assignments · {filtered.length} match your filters</p>
         </div>
         <div className="page-actions">

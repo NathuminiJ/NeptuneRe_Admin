@@ -36,9 +36,9 @@
   --np-slate: #5b6661;
   --np-slate-bg: #eef1f0;
 
-  /* Shape — NEPTUNE favours squared/octagonal geometry, not pills */
-  --radius-card: 4px;
-  --radius-control: 3px;
+  /* Shape — soft, modern corners (octagonal accents remain a brand detail) */
+  --radius-card: 14px;
+  --radius-control: 8px;
 
   /* Elevation */
   --shadow-sm: 0 1px 2px rgba(18, 48, 29, 0.06);
