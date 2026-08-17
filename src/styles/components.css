@@ -154,7 +154,7 @@
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  border-radius: 2px;
+  border-radius: 999px;
   border: 1px solid transparent;
   white-space: nowrap;
 }
@@ -425,7 +425,7 @@
   background: none;
   color: var(--np-ink-2);
   cursor: pointer;
-  border-radius: 2px;
+  border-radius: 6px;
 }
 
 .password-toggle:hover {
@@ -446,7 +446,7 @@
   width: 15px;
   height: 15px;
   accent-color: var(--np-green-600);
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 .select-swatch {
@@ -459,7 +459,7 @@
   width: 14px;
   height: 14px;
   flex: none;
-  border-radius: 2px;
+  border-radius: 6px;
   border: 1px solid rgba(0, 0, 0, 0.18);
   display: inline-block;
 }
@@ -516,7 +516,7 @@
   background: none;
   color: var(--np-ink-3);
   cursor: pointer;
-  border-radius: 2px;
+  border-radius: 6px;
 }
 
 .searchbar-clear:hover {
@@ -608,7 +608,7 @@
   color: var(--np-ink);
   background: none;
   border: none;
-  border-radius: 2px;
+  border-radius: 8px;
   cursor: pointer;
   text-align: left;
 }
@@ -719,22 +719,6 @@
 .stat-card:hover {
   box-shadow: var(--shadow-md);
   transform: translateY(-1px);
-}
-
-.stat-card.depth {
-  position: relative;
-  margin-top: 8px;
-}
-
-.stat-card.depth::after {
-  content: '';
-  position: absolute;
-  inset: 8px -1px auto -1px;
-  height: 100%;
-  background: var(--np-green-50);
-  border: 1px solid var(--np-line);
-  border-radius: var(--radius-card);
-  z-index: -1;
 }
 
 .stat-value {
@@ -861,7 +845,7 @@
 .data-table .skeleton-line {
   display: inline-block;
   height: 11px;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 /* Responsive: tables become stacked cards on small screens */
@@ -982,10 +966,6 @@
   background: var(--np-green-800);
   border-color: var(--np-green-800);
   color: #ffffff;
-  clip-path: polygon(
-    20% 0, 80% 0, 100% 20%, 100% 80%,
-    80% 100%, 20% 100%, 0 80%, 0 20%
-  );
 }
 
 .page-btn:disabled {
@@ -1152,7 +1132,7 @@
   flex: none;
   background: #c9d4cd;
   border: none;
-  border-radius: 2px;
+  border-radius: 999px;
   cursor: pointer;
   transition: background 0.15s ease;
 }
@@ -1164,7 +1144,7 @@
   width: 18px;
   height: 18px;
   background: #ffffff;
-  border-radius: 2px;
+  border-radius: 50%;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
   transition: transform 0.15s ease;
 }
@@ -1262,7 +1242,7 @@
   position: relative;
   overflow: hidden;
   background: #e7eeea;
-  border-radius: 2px;
+  border-radius: 6px;
 }
 
 .skeleton::after {
@@ -1342,7 +1322,7 @@
   color: var(--np-ink-3);
   cursor: pointer;
   padding: 2px;
-  border-radius: 2px;
+  border-radius: 6px;
 }
 
 .toast-close:hover {
@@ -1403,7 +1383,7 @@
   display: flex;
   gap: 11px;
   padding: 12px;
-  border-radius: 2px;
+  border-radius: 8px;
   cursor: pointer;
   transition: background 0.13s ease;
 }
@@ -1459,7 +1439,7 @@
   border-bottom: none;
   width: 100%;
   cursor: pointer;
-  border-radius: 0 0 3px 3px;
+  border-radius: 0 0 12px 12px;
 }
 
 .notif-foot:hover {

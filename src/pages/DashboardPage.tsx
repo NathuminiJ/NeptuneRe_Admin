@@ -1,6 +1,4 @@
 import {
-  CalendarDays,
-  CheckCircle2,
   ClipboardList,
   ClipboardPlus,
   Clock,
@@ -54,10 +52,6 @@ export function DashboardPage() {
       riders: MOCK_RIDERS.filter((r) => r.status === 'ACTIVE').length,
       vehicles: MOCK_VEHICLES.filter((v) => v.status === 'ACTIVE').length,
       pending: requestStats.PENDING,
-      completed: requestStats.COMPLETED,
-      activeAssignments: MOCK_ASSIGNMENTS.filter(
-        (a) => a.date === SYSTEM_DATE && a.status !== 'COMPLETED',
-      ).length,
     }),
     [requestStats],
   );
@@ -77,11 +71,6 @@ export function DashboardPage() {
 
   const collectorName = (id: string) =>
     MOCK_COLLECTORS.find((c) => c.id === id)?.fullName ?? '—';
-  const riderName = (id: string | null) => MOCK_RIDERS.find((r) => r.id === id)?.fullName ?? '—';
-  const riderVehicle = (id: string | null) => {
-    const rider = MOCK_RIDERS.find((r) => r.id === id);
-    return rider ? `${rider.vehicleType} · ${rider.vehicleNumber}` : '—';
-  };
 
   const activityColumns = [
     {
@@ -95,8 +84,6 @@ export function DashboardPage() {
       width: '118px',
     },
     { key: 'collector', header: 'Collector', render: (r: CollectionRequest) => collectorName(r.collectorId) },
-    { key: 'rider', header: 'Rider', render: (r: CollectionRequest) => riderName(r.riderId) },
-    { key: 'vehicle', header: 'Vehicle', render: (r: CollectionRequest) => riderVehicle(r.riderId) },
     {
       key: 'weight',
       header: 'Weight',
@@ -113,10 +100,9 @@ export function DashboardPage() {
   ];
 
   return (
-    <div className="fade-in">
+    <div className="fade-in dash">
       <div className="page-head">
         <div>
-          <h2>Dashboard</h2>
           <p>Welcome back — here is today's collection activity at a glance.</p>
         </div>
       </div>
@@ -130,7 +116,6 @@ export function DashboardPage() {
           tone="green"
           hint="of 6 registered"
           hintTone="up"
-          depth
         />
         <StatisticCard
           label="Total Riders"
@@ -139,7 +124,6 @@ export function DashboardPage() {
           tone="blue"
           hint="of 5 registered"
           hintTone="up"
-          depth
         />
         <StatisticCard
           label="Active Vehicles"
@@ -148,7 +132,6 @@ export function DashboardPage() {
           tone="deep"
           hint="fleet ready"
           hintTone="flat"
-          depth
         />
         <StatisticCard
           label="Pending Requests"
@@ -157,29 +140,10 @@ export function DashboardPage() {
           tone="amber"
           hint="needs action"
           hintTone="down"
-          depth
-        />
-        <StatisticCard
-          label="Completed Collections"
-          value={stats.completed}
-          icon={CheckCircle2}
-          tone="green"
-          hint="this week"
-          hintTone="up"
-          depth
-        />
-        <StatisticCard
-          label="Active Assignments"
-          value={stats.activeAssignments}
-          icon={CalendarDays}
-          tone="outline"
-          hint="for today"
-          hintTone="flat"
-          depth
         />
       </div>
 
-      {/* A. Request overview + B. Collection activity */}
+      {/* A. Request overview + B. Today's assignments */}
       <div className="dash-grid-2">
         <div className="card">
           <div className="card-head">
@@ -197,7 +161,7 @@ export function DashboardPage() {
                 />
               ))}
             </div>
-            <div className="chart-legend" style={{ marginBottom: 18 }}>
+            <div className="chart-legend" style={{ marginBottom: 0 }}>
               {(['PENDING', 'ACCEPTED', 'COMPLETED', 'CANCELLED'] as const).map((s) => (
                 <span key={s}>
                   <span className="dot" style={{ background: CHART_TONES[s].fill }} />
@@ -206,60 +170,9 @@ export function DashboardPage() {
               ))}
               <span style={{ marginLeft: 'auto' }}>{totalRequests} total</span>
             </div>
-            {(['PENDING', 'ACCEPTED', 'COMPLETED', 'CANCELLED'] as const).map((s) => (
-              <div className="chart-row" key={s}>
-                <span className="chart-label">
-                  <span className="dot" style={{ background: CHART_TONES[s].color }} />
-                  {s.charAt(0) + s.slice(1).toLowerCase()}
-                </span>
-                <span className="chart-track">
-                  <span
-                    className="chart-fill"
-                    style={{
-                      width: `${(requestStats[s] / totalRequests) * 100}%`,
-                      background: CHART_TONES[s].fill,
-                    }}
-                  />
-                </span>
-                <span className="chart-count">{requestStats[s]}</span>
-              </div>
-            ))}
           </div>
         </div>
 
-        <div className="card">
-          <div className="card-head">
-            <h3 className="card-title">Collection Activity</h3>
-            <button
-              type="button"
-              className="link-btn"
-              onClick={() => navigate('/requests')}
-            >
-              View all
-            </button>
-          </div>
-          <div className="card-body flush">
-            <DataTable
-              columns={activityColumns}
-              rows={recentRequests}
-              rowKey={(r) => r.id}
-              onRowClick={(r) => navigate(`/requests/${r.id}`)}
-              emptyState={
-                <div className="state">
-                  <div className="state-icon octagonal">
-                    <ClipboardList />
-                  </div>
-                  <div className="state-title">No activity yet</div>
-                  <div className="state-desc">Collection requests will appear here.</div>
-                </div>
-              }
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* C. Assignments + D. Quick actions + E. Recent activity */}
-      <div className="dash-grid-3">
         <div className="card">
           <div className="card-head">
             <h3 className="card-title">Today's Assignments</h3>
@@ -299,66 +212,37 @@ export function DashboardPage() {
             </div>
           </div>
         </div>
+      </div>
 
+      {/* C. Collection activity + D. Recent activity */}
+      <div className="dash-grid-2">
         <div className="card">
           <div className="card-head">
-            <h3 className="card-title">Quick Actions</h3>
+            <h3 className="card-title">Collection Activity</h3>
+            <button
+              type="button"
+              className="link-btn"
+              onClick={() => navigate('/requests')}
+            >
+              View all
+            </button>
           </div>
-          <div className="card-body">
-            <div className="qa-grid">
-              <button
-                type="button"
-                className="qa-btn"
-                onClick={() => navigate('/collectors?new=1')}
-              >
-                <OctagonalIconContainer tone="green" small>
-                  <UserPlus />
-                </OctagonalIconContainer>
-                <span>
-                  <span className="qa-label">Add Collector</span>
-                  <div className="qa-sub">Register collection staff</div>
-                </span>
-              </button>
-              <button
-                type="button"
-                className="qa-btn"
-                onClick={() => navigate('/riders?new=1')}
-              >
-                <OctagonalIconContainer tone="blue" small>
-                  <UserPlus />
-                </OctagonalIconContainer>
-                <span>
-                  <span className="qa-label">Add Rider</span>
-                  <div className="qa-sub">Register a rider</div>
-                </span>
-              </button>
-              <button
-                type="button"
-                className="qa-btn"
-                onClick={() => navigate('/vehicles?new=1')}
-              >
-                <OctagonalIconContainer tone="deep" small>
-                  <Plus />
-                </OctagonalIconContainer>
-                <span>
-                  <span className="qa-label">Add Vehicle</span>
-                  <div className="qa-sub">Add a truck, tuk or bike</div>
-                </span>
-              </button>
-              <button
-                type="button"
-                className="qa-btn"
-                onClick={() => navigate('/assignments?new=1')}
-              >
-                <OctagonalIconContainer tone="amber" small>
-                  <ClipboardPlus />
-                </OctagonalIconContainer>
-                <span>
-                  <span className="qa-label">Create Assignment</span>
-                  <div className="qa-sub">Plan a daily route</div>
-                </span>
-              </button>
-            </div>
+          <div className="card-body flush">
+            <DataTable
+              columns={activityColumns}
+              rows={recentRequests}
+              rowKey={(r) => r.id}
+              onRowClick={(r) => navigate(`/requests/${r.id}`)}
+              emptyState={
+                <div className="state">
+                  <div className="state-icon octagonal">
+                    <ClipboardList />
+                  </div>
+                  <div className="state-title">No activity yet</div>
+                  <div className="state-desc">Collection requests will appear here.</div>
+                </div>
+              }
+            />
           </div>
         </div>
 
@@ -381,6 +265,69 @@ export function DashboardPage() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* E. Quick actions */}
+      <div className="card qa-strip">
+        <div className="card-head">
+          <h3 className="card-title">Quick Actions</h3>
+        </div>
+        <div className="card-body">
+          <div className="qa-grid">
+            <button
+              type="button"
+              className="qa-btn"
+              onClick={() => navigate('/collectors?new=1')}
+            >
+              <OctagonalIconContainer tone="green" small>
+                <UserPlus />
+              </OctagonalIconContainer>
+              <span>
+                <span className="qa-label">Add Collector</span>
+                <div className="qa-sub">Register collection staff</div>
+              </span>
+            </button>
+            <button
+              type="button"
+              className="qa-btn"
+              onClick={() => navigate('/riders?new=1')}
+            >
+              <OctagonalIconContainer tone="blue" small>
+                <UserPlus />
+              </OctagonalIconContainer>
+              <span>
+                <span className="qa-label">Add Rider</span>
+                <div className="qa-sub">Register a rider</div>
+              </span>
+            </button>
+            <button
+              type="button"
+              className="qa-btn"
+              onClick={() => navigate('/vehicles?new=1')}
+            >
+              <OctagonalIconContainer tone="deep" small>
+                <Plus />
+              </OctagonalIconContainer>
+              <span>
+                <span className="qa-label">Add Vehicle</span>
+                <div className="qa-sub">Add a truck, tuk or bike</div>
+              </span>
+            </button>
+            <button
+              type="button"
+              className="qa-btn"
+              onClick={() => navigate('/assignments?new=1')}
+            >
+              <OctagonalIconContainer tone="amber" small>
+                <ClipboardPlus />
+              </OctagonalIconContainer>
+              <span>
+                <span className="qa-label">Create Assignment</span>
+                <div className="qa-sub">Plan a daily route</div>
+              </span>
+            </button>
           </div>
         </div>
       </div>

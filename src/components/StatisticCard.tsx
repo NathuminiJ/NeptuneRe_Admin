@@ -12,7 +12,6 @@ interface StatisticCardProps {
   tone?: StatCardTone;
   hint?: string;
   hintTone?: 'up' | 'down' | 'flat';
-  depth?: boolean;
 }
 
 export function StatisticCard({
@@ -22,10 +21,9 @@ export function StatisticCard({
   tone = 'green',
   hint,
   hintTone = 'flat',
-  depth = false,
 }: StatisticCardProps) {
   return (
-    <div className={classNames('stat-card', depth && 'depth')}>
+    <div className="stat-card">
       <OctagonalIconContainer tone={tone}>
         <Icon />
       </OctagonalIconContainer>

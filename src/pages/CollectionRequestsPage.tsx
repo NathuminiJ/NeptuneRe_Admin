@@ -145,7 +145,6 @@ export function CollectionRequestsPage() {
     <div className="fade-in">
       <div className="page-head">
         <div>
-          <h2>Collection Requests</h2>
           <p>{MOCK_REQUESTS.length} requests · {filtered.length} match your filters</p>
         </div>
       </div>

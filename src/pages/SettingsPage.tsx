@@ -33,7 +33,6 @@ export function SettingsPage() {
     <div className="fade-in">
       <div className="page-head">
         <div>
-          <h2>Settings</h2>
           <p>Admin profile and notification preferences.</p>
         </div>
       </div>
